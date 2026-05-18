@@ -7,6 +7,7 @@ import ColoredCard from '../components/ColoredCard.vue';
 import ToolCard from '../components/ToolCard.vue';
 import { useToolStore } from '@/tools/tools.store';
 import { config } from '@/config';
+import { isCurated } from '@/ch-curated-tools';
 
 const toolStore = useToolStore();
 
@@ -14,6 +15,9 @@ useHead({ title: 'IT Tools - Handy online tools for developers' });
 const { t } = useI18n();
 
 const favoriteTools = computed(() => toolStore.favoriteTools);
+
+// CH: only show curated tools on the home page grid (search + direct URLs still work for all tools)
+const curatedTools = computed(() => toolStore.tools.filter(tool => isCurated(tool.path)));
 
 // Update favorite tools order when drag is finished
 function onUpdateFavoriteTools() {
@@ -80,7 +84,7 @@ function onUpdateFavoriteTools() {
         {{ $t('home.categories.allTools') }}
       </h3>
       <div class="grid grid-cols-1 gap-12px lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-4">
-        <ToolCard v-for="tool in toolStore.tools" :key="tool.name" :tool="tool" />
+        <ToolCard v-for="tool in curatedTools" :key="tool.name" :tool="tool" />
       </div>
     </div>
   </div>
