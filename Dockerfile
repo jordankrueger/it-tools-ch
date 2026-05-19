@@ -39,7 +39,7 @@ RUN if [ "$PKG_MANAGER" = "pnpm" ]; then \
 ARG DIST_PATH=dist
 
 FROM nginx:alpine
-ARG PREFIX
+ARG PREFIX=tools
 ARG DIST_PATH=dist
 COPY --from=build /app/${DIST_PATH}/ /usr/share/nginx/html/${PREFIX}/
 COPY nginx.conf /etc/nginx/conf.d/default.conf
